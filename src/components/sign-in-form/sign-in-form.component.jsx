@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import {
   signInAuthUserWithEmailAndPassword,
-  createUserDocumentFromAuth,
   signInWithGooglePopup,
 } from '../../utils/Firebase/Firebase.utils';
 import Button from '../button/button.component';
 import FormInput from '../form-input/form-input.component';
+
 import './sign-in-form.styles.scss';
 
 const defualtFormFields = {
@@ -21,12 +21,8 @@ const SignInForm = () => {
     event.preventDefault();
 
     try {
-      const response = await signInAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
+      await signInAuthUserWithEmailAndPassword(email, password);
 
-      console.log(response);
       setFormFields(defualtFormFields);
     } catch (error) {
       switch (error.code) {
@@ -46,13 +42,12 @@ const SignInForm = () => {
   };
 
   const signInWithGoogle = async () => {
-    const { user } = await signInWithGooglePopup();
-    await createUserDocumentFromAuth(user);
+    await signInWithGooglePopup();
   };
 
   return (
     <div className='sign-up-container'>
-      <h2>Already habe an account?</h2>
+      <h2>Already have an account?</h2>
       <span>Sign up with your email and password</span>
       <form onSubmit={(e) => handleSubmit(e)}>
         <FormInput
